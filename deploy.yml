@@ -7,6 +7,6 @@
       ansible.builtin.command:
         cmd: "subscription-manager clean"
 
-    - name: deploy importanapp
+    - name: deploy importantapp
       ansible.builtin.include_role:
-        name: "importanapp"
+        name: "importantapp"
