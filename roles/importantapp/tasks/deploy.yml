@@ -31,8 +31,8 @@
     state: present
   when: unarchive.changed == true
 
- - name: Apply new SELinux file context to filesystem
-   ansible.builtin.command: restorecon -irv /var/www/html/
+- name: Apply new SELinux file context to filesystem
+  ansible.builtin.command: restorecon -irv /var/www/html/
 
 - name: Create site directory
   ansible.builtin.copy:
