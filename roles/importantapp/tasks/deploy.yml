@@ -18,11 +18,11 @@
     dest: /var/www/
   register: unarchive
 
- - name: manage files in /var/www/
-   community.general.sefcontext:
-     target: '/var/www/html(/.*)?'
-     setype: httpd_sys_content_t
-     state: present
+- name: manage files in /var/www/
+  community.general.sefcontext:
+    target: '/var/www/html(/.*)?'
+    setype: httpd_sys_content_t
+    state: present
 
 - name: Apply new SELinux file context to filesystem if files were unarchived
   community.general.sefcontext:
