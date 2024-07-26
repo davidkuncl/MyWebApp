@@ -1,0 +1,26 @@
+---
+- name: Automatic Remediation of a webserver
+  hosts: all
+  sources:
+    - name: watch our site for outage
+      ansible.eda.url_check:
+        urls:
+          - "http://importantapp"
+        delay: 4
+
+#    - name: listen for alerts
+#      ansible.eda.alertmanager:
+#        host: 0.0.0.0
+#        port: 8000
+  rules:
+    - name: restart web server
+      condition: event.url_check.status == "down"
+      throttle:
+        once_within: 169 seconds
+        group_by_attributes:
+          - event.url_check.url
+      action:
+        run_workflow_template:
+          name: "Heal Importantapp"
+          organization: Default
+          
