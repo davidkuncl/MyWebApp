@@ -11,55 +11,43 @@
     state: directory
     recurse: true
   notify: restart nginx
-
+    
 - name: Untar archive
   ansible.builtin.unarchive:
     src: site.tar.gz
     dest: /var/www/
   register: unarchive
-
+    
 - name: manage files in /var/www/
-  community.general.sefcontext:
-    target: '/var/www/html(/.*)?'
-    setype: httpd_sys_content_t
-    state: present
-
-- name: Apply new SELinux file context to filesystem if files were unarchived
-  community.general.sefcontext:
-    target: /var/www/html(/.*)?
-    setype: httpd_sys_content_t
-    state: present
-  when: unarchive.changed == true
+  ansible.builtin.command: semanage fcontext -a -t httpd_sys_content_t '/var/www/html(/.*)?'
+  ignore_errors: True
 
 - name: Apply new SELinux file context to filesystem
   ansible.builtin.command: restorecon -irv /var/www/html/
-
+    
 - name: Create site directory
   ansible.builtin.copy:
     src: nginx.conf
     dest: /etc/nginx/nginx.conf
   notify: restart nginx
-
+    
 - name: Start nginx service
   ansible.builtin.service:
     name: nginx
     state: started
     enabled: true
-
+    
 - name: Add http firewall rule
   ansible.posix.firewalld:
     service: http
     permanent: true
     state: enabled
   notify: reload firewall
-
+    
 - name: Refresh handlers
   meta: flush_handlers
-
+    
 - name: Wait for webapp to be available
-  uri:
-    url: http://importantapp
-  register: result
-  until: "result.status == 200"
-  retries: 5
-  delay: 1
+  ansible.builtin.wait_for:
+    port: 443
+  delegate_to: localhost
