@@ -3,7 +3,7 @@
   ansible.builtin.dnf: 
     name: nginx
     state: present
-  notify: restart nginx
+  notify: Restart nginx
 
 - name: Create site directory
   ansible.builtin.file:
