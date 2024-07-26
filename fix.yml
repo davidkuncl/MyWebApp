@@ -1,0 +1,10 @@
+---
+- name: Heal importantapp
+  hosts: importantapp
+  become: true
+  tasks:
+    - name: Heal importanapp
+      vars: 
+        operation: "fix"
+      ansible.builtin.include_role:
+        name: "importantapp"

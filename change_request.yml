@@ -1,0 +1,42 @@
+- name: create CR
+  hosts: localhost
+  connection: local
+  vars:
+    change_out:
+      record:
+        number: CHG0030114
+  tasks:
+#  - name: Create incident importantapp
+#    servicenow.itsm.incident:
+#      state: new
+#      caller: admin
+#      short_description: ImportantApp is down!
+#      description: Super-monitor has detected Importantapp has an outage!
+#      impact: high
+#      urgency: high 
+#    register: incident
+#    check_mode: false
+
+- name: Create change request ticket
+  servicenow.itsm.change_request:
+    state: assign
+    requested_by: ajay.chenampara
+    priority: low
+    impact: low
+    risk: low
+    number: "{{ change_out.record.number }}"
+    category: "software"
+    assignment_group: "Change Management"
+  register: change_out
+  check_mode: false
+
+  - name: set stats for incident
+    set_stats:
+      data:
+        incident_record_number: "{{ incident.record.number }}"
+
+  - name: debug for incident
+    debug:
+      msg: 
+        - "{{ incident }}"
+        - "{{ incident.record.number }}"

@@ -1,0 +1,25 @@
+- name: Create incident 
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create incident importantapp
+    servicenow.itsm.incident:
+      state: new
+      caller: admin
+      short_description: ImportantApp is down!
+      description: Super-monitor has detected Importantapp has an outage!
+      impact: high
+      urgency: high 
+    register: incident
+    check_mode: false
+
+  - name: set stats for incident
+    set_stats:
+      data:
+        incident_record_number: "{{ incident.record.number }}"
+
+  - name: debug for incident
+    debug:
+      msg: 
+        - "{{ incident }}"
+        - "{{ incident.record.number }}"

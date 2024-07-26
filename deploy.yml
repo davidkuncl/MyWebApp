@@ -1,0 +1,19 @@
+---
+- name: Deploy importantapp
+  hosts: importantapp
+  become: true
+  tasks:
+    - name: clean slate
+      ansible.builtin.command:
+        cmd: "subscription-manager clean"
+
+    - name: attach to RH sub
+      community.general.redhat_subscription:
+        username: "{{ ansible.builtin.lookup('env', RH_USERNAME) }}"
+        password: "{{ ansible.builtin.lookup('env', RH_PASSWORD) }}"
+        pool_ids:
+          - "{{ ansible.builtin.lookup('env', RH_POOL) }}"
+
+    - name: deploy importanapp
+      ansible.builtin.include_role:
+        name: "importanapp"

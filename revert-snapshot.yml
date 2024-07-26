@@ -1,0 +1,42 @@
+---
+- name: Revert importantapp VM to latest working snapshot
+  hosts: localhost
+  tasks:
+    - name: Revert to last known working snapshot
+      community.vmware.vmware_guest_snapshot:
+        hostname: "{{ lookup('env', 'VMWARE_HOST') }}"
+        username: "{{ lookup('env', 'VMWARE_USER') }}"
+        password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+        datacenter: "Datacenter"
+        folder: "vms"
+        name: "importantapp"
+        state: revert
+        snapshot_name: latest_working
+
+    - name: Ensure VM is powered-on
+      community.vmware.vmware_guest_powerstate:
+        hostname: "{{ lookup('env', 'VMWARE_HOST') }}"
+        username: "{{ lookup('env', 'VMWARE_USER') }}"
+        password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+        datacenter: "Datacenter"
+        folder: "vms"
+        name: "importantapp"
+        state: powered-on
+
+    - name: wait for VM to be powered on
+      wait_for: 
+        host: "importantapp"
+        port: 22
+        timeout: 100
+        search_regex: OpenSSH
+
+    - name: wait for webapp to be available
+      uri:
+        url: http://importantapp
+      register: result
+      until: "result.status == 200"
+      retries: 5
+      delay: 1
+
+
+

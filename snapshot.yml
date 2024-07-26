@@ -1,0 +1,17 @@
+---
+- name: create a snapshot of our importantapp vm
+  hosts: localhost
+  tasks:
+    - name: Create a snapshot
+      community.vmware.vmware_guest_snapshot:
+        hostname: "{{ lookup('env', 'VCENTER_HOST') }}"
+        username: "{{ lookup('env', 'VMWARE_USER') }}"
+        password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+        datacenter: "Datacenter"
+        folder: "vms"
+        name: "importantapp"
+        state: present
+        snapshot_name: latest_working
+        description: latest_working_description
+
+
