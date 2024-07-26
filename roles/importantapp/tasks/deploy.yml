@@ -36,6 +36,11 @@
     name: nginx
     state: started
     enabled: true
+
+- name: Install firewalld depends
+  ansible.builtin.dnf: 
+    name: python3-firewall
+    state: present
     
 - name: Add http firewall rule
   ansible.posix.firewalld:
