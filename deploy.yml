@@ -1,6 +1,6 @@
 ---
 - name: Deploy importantapp
-  hosts: importantapp
+  hosts: aws_rhel8
   become: true
   tasks:
     - name: clean slate
