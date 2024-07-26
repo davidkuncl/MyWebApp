@@ -1,6 +1,6 @@
 ---
 - name: Install nginx
-  ansilb.builtin.dnf: 
+  ansible.builtin.dnf: 
     name: nginx
     state: present
   notify: restart nginx
