@@ -59,3 +59,7 @@
     url: "http://{{ ansible_host }}"
   delegate_to: localhost
   become: false
+  
+- name: Show web url
+  ansible.builtin.debug:
+    msg: "http://{{ ansible_host }}"
