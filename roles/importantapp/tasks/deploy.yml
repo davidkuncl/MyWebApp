@@ -56,6 +56,6 @@
     
 - name: Wait for webapp to be available
   ansible.builtin.uri:
-    url: "https://{{ ansible_host }}"
+    url: "http://{{ ansible_host }}"
   delegate_to: localhost
   become: false
