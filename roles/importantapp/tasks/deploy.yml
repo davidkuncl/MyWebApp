@@ -55,6 +55,7 @@
   meta: flush_handlers
     
 - name: Wait for webapp to be available
-  ansible.builtin.wait_for:
-    port: 443
+  ansible.builtin.uri:
+    url: "https://{{ ansible_host }}"
   delegate_to: localhost
+  become: false
