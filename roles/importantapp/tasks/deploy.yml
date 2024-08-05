@@ -49,7 +49,7 @@
     service: http
     permanent: true
     state: enabled
-  notify: reload firewall
+  notify: Reload firewall
     
 - name: Refresh handlers
   meta: flush_handlers
