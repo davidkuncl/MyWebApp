@@ -39,8 +39,9 @@
 
 - name: Install firewalld depends
   ansible.builtin.dnf: 
-    name: firewalld
-    name: python3-firewall
+    name: 
+      - firewalld
+      - python3-firewall
     state: present
     
 - name: Add http firewall rule
