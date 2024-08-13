@@ -5,6 +5,11 @@
     state: present
   notify: Restart nginx
 
+- name: Compress web app
+  community.general.archive:
+    path: /html
+    dest: test.tar.gz
+
 - name: Create site directory
   ansible.builtin.file:
     path: /var/www/
