@@ -1,5 +1,5 @@
 # Demo
-ServiceNow, VMWare for AnsibleFest/Summit 2023 luncheon.
+This is a simple web application that can be deployed on RHEL servers.
 
 # Premise
 We have some important web app. It is vital that this app be up and available. Additionally, humans like to sleep and do other things besides watch for 404's. How many administrators enjoy getting a call at 2am that the important app is down? 
