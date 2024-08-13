@@ -6,9 +6,10 @@
   notify: Restart nginx
 
 - name: Compress web app
-  community.general.archive:
+  archive:
     path: /html
     dest: test.tar.gz
+    format: gz
 
 - name: Create site directory
   ansible.builtin.file:
